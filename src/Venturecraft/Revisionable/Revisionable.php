@@ -225,8 +225,8 @@ class Revisionable extends Eloquent
             if (class_exists($class = '\Cartalyst\Sentry\Facades\Laravel\Sentry')
                     || class_exists($class = '\Cartalyst\Sentinel\Laravel\Facades\Sentinel')) {
                 return ($class::check()) ? $class::getUser()->id : null;
-            } elseif (\Auth::check()) {
-                return \Auth::user()->getAuthIdentifier();
+            } elseif (\Auth::guard(config('auth.defaults.guard'))->check()) {
+                return \Auth::guard(config('auth.defaults.guard'))->user()->getAuthIdentifier();
             }
         } catch (\Exception $e) {
             return null;
